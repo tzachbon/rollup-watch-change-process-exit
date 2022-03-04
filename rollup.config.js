@@ -21,17 +21,17 @@ function onBuildStartPlugin() {
     name: 'onWatchThrow',
     async buildStart() {
       this.addWatchFile(filePath);
-      emitError();
+      emitError(this);
     },
     async watchChange() {
-      emitError();
+      emitError(this);
     },
   };
 }
-function emitError() {
+function emitError(ctx) {
   const file = readFileSync(filePath, 'utf8');
 
   if (file.includes("console.log('error')")) {
-    this.error(new Error('Stop the process'));
+    ctx.error(new Error('Stop the process'));
   }
 }
